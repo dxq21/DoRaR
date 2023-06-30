@@ -2,224 +2,40 @@ import numpy as np
 import torch
 import argparse
 from utils import str2bool
-from solver3 import Solver3
-from solver4 import Solver4
-from solver5 import Solver5
 from solver6 import Solver6
-from solver_lime import Solver_lime
-from solver_gradient import Solver_gradient
-from solver_baseline import Solver_baseline
-from solver_synthetic import Solver_synthetic
-from solver6_cifar10 import Solver6_cifar10
-from solver7 import Solver7
-from solver_concept_v2 import Solver_concept
-from VIBI import VIBI
-from VIBI_cifar10 import VIBI_cifar10
-from VIBI_synthetic import VIBI_synthetic
-from solver_test import Solver_test
-from Testing3 import Testing3
-from pretrained_predictor import pretrained_predictor
-from guided_feature_inversion import guided_feature_inversion
-from guided_feature_inversion_cifar10 import guided_feature_inversion_cifar10
-from guided_feature_inversion_synthetic import guided_feature_inversion_synthetic
-from attack_model1 import attack_model1
 
-#beta 0 0.5987 0.8973 >0.1 0.6044 > 1 0.6067  > 5 0.6027 0.8995 >10 0.6056 0.9014  >20 0.6079 0.9014 >50 0.6106
 def main(args):
     torch.backends.cudnn.enabled = True
     torch.backends.cudnn.benchmark = True
-
-    ## print-option
-    np.set_printoptions(precision=4)  # upto 4th digits for floating point output
-    torch.set_printoptions(precision=4)
-    print('\n[ARGUMENTS]\n', args)
 
     ## cuda
     if torch.cuda.is_available() and not args.cuda:
         print("WARNING: You have a CUDA device, so you should probably run with --cuda True")
     args.cuda = (args.cuda and torch.cuda.is_available())
 
-    # net = Solver_concept(args)
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = Solver_baseline(args)
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = Solver_synthetic(args)
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = attack_model1(args)
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
 
     net = Solver6(args)
     if args.mode == 'train':
         net.train(test=False)
     elif args.mode == 'test':
-        # net.train(test=True)
         net.val(test=True)
     else:
         print('\nError: "--mode train" or "--mode test" expected')
 
-    # net = Solver_lime(args)
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = Solver_gradient(args)
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = Solver6_cifar10(args)
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = VIBI(args)
-    #
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = VIBI_cifar10(args)
-    #
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = VIBI_synthetic(args)
-    #
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-
-    # net = Solver_test(args)
-    #
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test = True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = Testing3(args)
-    #
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = pretrained_predictor(args)
-    #
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = guided_feature_inversion(args)
-    #
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = guided_feature_inversion_cifar10(args)
-    #
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
-
-    # net = guided_feature_inversion_synthetic(args)
-    #
-    # if args.mode == 'train':
-    #     net.train(test=False)
-    # elif args.mode == 'test':
-    #     # net.train(test=True)
-    #     net.val(test=True)
-    # else:
-    #     print('\nError: "--mode train" or "--mode test" expected')
 
 
 if __name__ == "__main__":
-    # dataset = "mnist"
-    # explainer_type = "cnn4"
-    # mode = "train"
+
     model_name = "original.ckpt"
     parser = argparse.ArgumentParser(description='VIBI for interpretation')
     parser.add_argument('--test_model', default='Ours', type=str,
                         help='Ours, RealX, VIBI, saliency, smoothgrad')
     parser.add_argument('--epoch', default=80, type=int,
-                        # VIBI
                         help='epoch number')
     parser.add_argument('--lr', default=5e-4, type=float,
-                        # 5e-4
                         help='learning rate')
     parser.add_argument('--fixed_training', default='not_fixed', type=str,
                         help='fixed, not_fixed')
-    #8*28/(28*28)
     parser.add_argument('--alpha', default=(4)/(7*7), type=float,
                         help='alpha for balance between two prediction losses')
     parser.add_argument('--beta', default=0.1, type=float,
